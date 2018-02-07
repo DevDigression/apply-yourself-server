@@ -33,9 +33,13 @@ const JobSchema = mongoose.Schema({
   // lastName: { type: String, default: "" }
 });
 
-JobSchema.methods.serialize = function() {
+JobSchema.methods.jobRepresentation = function() {
   return {
-    // title: this.title || ""
+    title: this.title,
+    company: this.company,
+    contact: this.contact,
+    deadline: this.deadline,
+    id: this._id
   };
 };
 

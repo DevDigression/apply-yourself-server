@@ -14,7 +14,9 @@ const jsonParser = bodyParser.json();
 router.get("/", (req, res) => {
   Job.find()
     .then(jobs => {
-      res.json(jobs.map(job => job.serialize()));
+      res.json({
+        jobs: jobs.map(job => job.jobRepresentation())
+      });
     })
     .catch(err => {
       console.error(err);
