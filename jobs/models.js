@@ -5,10 +5,20 @@ const mongoose = require("mongoose");
 mongoose.Promise = global.Promise;
 
 const JobSchema = mongoose.Schema({
-  title:
-  company:
-  contact-info
-  deadline
+  title: {
+    type: String,
+    required: true
+  },
+  company: {
+    type: String,
+    required: true
+  },
+  contact: {
+    type: String
+  },
+  deadline: {
+    type: String
+  },
   checkpoints: []
   // username: {
   //   type: String,
@@ -28,7 +38,6 @@ JobSchema.methods.serialize = function() {
     // title: this.title || ""
   };
 };
-
 
 const Job = mongoose.model("Job", JobSchema);
 
