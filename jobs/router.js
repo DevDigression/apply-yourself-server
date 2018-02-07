@@ -1,10 +1,8 @@
 "use strict";
 const express = require("express");
-const bodyParser = require("body-parser");
 const { Job } = require("./models");
 const router = express.Router();
-const jsonParser = bodyParser.json();
-//
+
 // router.get('/', (req, res) => {
 //   return User.find()
 //     .then(users => res.json(users.map(user => user.serialize())))
@@ -33,7 +31,9 @@ router.get("/:id", (req, res) => {
     });
 });
 
-router.post("/", jsonParser, (req, res) => {
+router.post("/", (req, res) => {
+  console.log(req.body);
+
   const requiredFields = ["title", "company"];
   for (let i = 0; i < requiredFields.length; i++) {
     const field = requiredFields[i];

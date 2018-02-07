@@ -3,6 +3,7 @@ require("dotenv").config();
 const express = require("express");
 const mongoose = require("mongoose");
 const morgan = require("morgan");
+const bodyParser = require("body-parser");
 const passport = require("passport");
 const bodyParser = require("body-parser");
 const jsonParser = bodyParser.json();
@@ -23,6 +24,8 @@ mongoose.Promise = global.Promise;
 const { PORT, DATABASE_URL } = require("./config");
 
 const app = express();
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
 
 // Logging
 app.use(morgan("common"));
