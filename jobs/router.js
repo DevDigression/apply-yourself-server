@@ -24,7 +24,7 @@ router.get("/", (req, res) => {
 
 router.get("/:id", (req, res) => {
   Job.findById(req.params.id)
-    .then(job => res.json(job.serialize()))
+    .then(job => res.json(job.jobRepresentation()))
     .catch(err => {
       console.error(err);
       res.status(500).json({ error: "something went horribly awry" });
@@ -50,7 +50,7 @@ router.post("/", (req, res) => {
     contact: req.body.contact,
     deadline: req.body.deadline
   })
-    .then(job => res.status(201).json(job.serialize()))
+    .then(job => res.status(201).json(job.jobRepresentation()))
     .catch(err => {
       console.error(err);
       res.status(500).json({ error: "Something went wrong" });

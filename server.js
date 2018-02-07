@@ -5,7 +5,6 @@ const mongoose = require("mongoose");
 const morgan = require("morgan");
 const bodyParser = require("body-parser");
 const passport = require("passport");
-const bodyParser = require("body-parser");
 const jsonParser = bodyParser.json();
 
 // Here we use destructuring assignment with renaming so the two variables
