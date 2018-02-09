@@ -3,12 +3,6 @@ const express = require("express");
 const { Job } = require("./models");
 const router = express.Router();
 
-// router.get('/', (req, res) => {
-//   return User.find()
-//     .then(users => res.json(users.map(user => user.serialize())))
-//     .catch(err => res.status(500).json({message: 'Internal server error'}));
-// });
-
 router.get("/", (req, res) => {
   Job.find()
     .then(jobs => {
@@ -48,7 +42,12 @@ router.post("/", (req, res) => {
     title: req.body.title,
     company: req.body.company,
     contact: req.body.contact,
-    deadline: req.body.deadline
+    deadline: req.body.deadline,
+    posting: req.body.posting,
+    style: req.body.style,
+    keywords: req.body.keywords,
+    notes: req.body.notes,
+    checkpoints: req.body.checkpoints
   })
     .then(job => res.status(201).json(job.jobRepresentation()))
     .catch(err => {
@@ -86,13 +85,6 @@ router.put("/:id", (req, res) => {
   Job.findByIdAndUpdate(req.params.id, { $set: updated }, { new: true })
     .then(updatedjob => res.status(204).end())
     .catch(err => res.status(500).json({ message: "Something went wrong" }));
-});
-
-router.delete("/:id", (req, res) => {
-  Job.findByIdAndRemove(req.params.id).then(() => {
-    console.log(`Deleted blog job with id \`${req.params.id}\``);
-    res.status(204).end();
-  });
 });
 
 module.exports = { router };

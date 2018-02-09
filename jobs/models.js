@@ -19,26 +19,34 @@ const JobSchema = mongoose.Schema({
   deadline: {
     type: String
   },
+  posting: {
+    type: String
+  },
+  style: {
+    type: String
+  },
+  keywords: [
+    {
+      type: String
+    }
+  ],
+  notes: {
+    type: String
+  },
   checkpoints: []
-  // username: {
-  //   type: String,
-  //   required: true,
-  //   unique: true
-  // },
-  // password: {
-  //   type: String,
-  //   required: true
-  // },
-  // firstName: { type: String, default: "" },
-  // lastName: { type: String, default: "" }
 });
 
 JobSchema.methods.jobRepresentation = function() {
   return {
     title: this.title,
     company: this.company,
+    posting: this.posting,
     contact: this.contact,
     deadline: this.deadline,
+    style: this.style,
+    keywords: this.keywords,
+    notes: this.notes,
+    checkpoints: this.checkpoints,
     id: this._id
   };
 };
