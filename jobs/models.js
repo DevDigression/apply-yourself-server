@@ -13,13 +13,16 @@ const JobSchema = mongoose.Schema({
     type: String,
     required: true
   },
+  posting: {
+    type: String
+  },
+  image: {
+    type: String
+  },
   contact: {
     type: String
   },
   deadline: {
-    type: String
-  },
-  posting: {
     type: String
   },
   style: {
@@ -30,9 +33,11 @@ const JobSchema = mongoose.Schema({
       type: String
     }
   ],
-  notes: {
-    type: String
-  },
+  notes: [
+    {
+      type: String
+    }
+  ],
   checkpoints: []
 });
 
@@ -41,6 +46,7 @@ JobSchema.methods.jobRepresentation = function() {
     title: this.title,
     company: this.company,
     posting: this.posting,
+    image: this.image,
     contact: this.contact,
     deadline: this.deadline,
     style: this.style,

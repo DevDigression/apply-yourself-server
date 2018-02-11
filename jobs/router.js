@@ -41,13 +41,15 @@ router.post("/", (req, res) => {
   Job.create({
     title: req.body.title,
     company: req.body.company,
+    posting: req.body.posting,
+    image: req.body.image,
     contact: req.body.contact,
     deadline: req.body.deadline,
-    posting: req.body.posting,
     style: req.body.style,
     keywords: req.body.keywords,
     notes: req.body.notes,
-    checkpoints: req.body.checkpoints
+    checkpoints: req.body.checkpoints,
+    id: req.body._id
   })
     .then(job => res.status(201).json(job.jobRepresentation()))
     .catch(err => {
