@@ -1,0 +1,9 @@
+language: node_js
+node_js: node
+deploy:
+  provider: heroku
+  api_key:
+    secure: EeXilO7oq90FJBgJN3uutYDUFJnj5ttCHyAJkiFPfC2r6igxPBhK6iODBAc1KDgnCtpG/ef667I72GJWjfDtJdsFW3MdATQ+KuZsxXRFZwKhpcf4b4NOJWAzy97d0WN4Xp7g82h6Ssx+x2gLytqQdrmqeVKszqCWYKbWuWe2ASMuX6jX0k0oXvSJs4Yd3s3+5YjPwr2HFTndUD0YuAuTvUgwHdNnlU+v10OOGHS0gpKZulElBJD9K/946v+45Gw3cP9T5VD3+Ti3O4Btrw+NPWifgLtCeh/doP4rSHhOQou0aORFLN7CkmyDu9+X9lOGybdhUvtrsJdBut+7sgpcXLVdDQajrEEMUlmwC3MpHZwmDeiVpETVcfk+ewDxKm1oSFz8SlkGCNYkMNIaa5EyVnIDAPnrmRTVb+gR2XzUAyrlLm2bLyOEe15embmmUPNXg7XI7jJP2lfxTdAFhPnTt/2AhlNbO6pgx7b3rvo4CyiM+1U9kny3oy4Ob9iJz6n/Qn9ggaLj5wI1UyV4pOBKyUWMoEm5Q4dhvRuzrPPcMK1YUI9FX614aoE+BvUeoyPwm0FvrR3rJUuNdk+91PkynS/PT6zV079BNaHNGMj8jwXNbsb+7Eqi36WD0B81SBEQzpIkOfW1PkhfhkpjlhrLGi56XwIHV81iaf56b+svibM=
+  app: apply-yourself-server
+  on:
+    repo: DevDigression/apply-yourself-server
