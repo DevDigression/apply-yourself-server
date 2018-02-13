@@ -38,6 +38,15 @@ const JobSchema = mongoose.Schema({
       type: String
     }
   ],
+  date: {
+    type: String
+  },
+  stage: {
+    type: String
+  },
+  completion: {
+    type: String
+  },
   checkpoints: []
 });
 
@@ -52,6 +61,8 @@ JobSchema.methods.jobRepresentation = function() {
     style: this.style,
     keywords: this.keywords,
     notes: this.notes,
+    date: this.date,
+    completion: this.completion,
     checkpoints: this.checkpoints,
     id: this._id
   };

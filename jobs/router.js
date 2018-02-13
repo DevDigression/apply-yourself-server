@@ -48,6 +48,9 @@ router.post("/", (req, res) => {
     style: req.body.style,
     keywords: req.body.keywords,
     notes: req.body.notes,
+    date: req.body.date,
+    stage: req.body.stage,
+    completion: req.body.completion,
     checkpoints: req.body.checkpoints,
     id: req.body._id
   })
