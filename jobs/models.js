@@ -62,6 +62,7 @@ JobSchema.methods.jobRepresentation = function() {
     keywords: this.keywords,
     notes: this.notes,
     date: this.date,
+    stage: this.stage,
     completion: this.completion,
     checkpoints: this.checkpoints,
     id: this._id
