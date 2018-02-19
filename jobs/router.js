@@ -1,7 +1,14 @@
 "use strict";
 const express = require("express");
-const { Job } = require("./models");
+const { Job, Checkpoint } = require("./models");
 const router = express.Router();
+
+const bodyParser = require("body-parser");
+const jsonParser = bodyParser.json();
+const passport = require("passport");
+const jwtAuth = passport.authenticate("jwt", { session: false });
+
+
 
 router.get("/", (req, res) => {
   Job.find()
@@ -26,8 +33,6 @@ router.get("/:id", (req, res) => {
 });
 
 router.post("/", (req, res) => {
-  console.log(req.body);
-
   const requiredFields = ["title", "company"];
   for (let i = 0; i < requiredFields.length; i++) {
     const field = requiredFields[i];
@@ -61,14 +66,34 @@ router.post("/", (req, res) => {
     });
 });
 
-router.delete("/:id", (req, res) => {
-  Job.findByIdAndRemove(req.params.id)
-    .then(() => {
-      res.status(204).json({ message: "success" });
+router.post("/:id/checkpoint", jsonParser, (req, res) => {
+  const requiredFields = ["stage", "content"];
+  for (let i = 0; i < requiredFields.length; i++) {
+    const field = requiredFields[i];
+    if (!(field in req.body)) {
+      const message = `Missing \`${field}\` in request body`;
+      console.error(message);
+      return res.status(400).send(message);
+    }
+  }
+
+  let checkpoint = {
+    stage: req.body.stage,
+    content: req.body.content
+    };
+
+    Job.findById(req.params.id)
+    .then(job => {
+      job.checkpoints.push(checkpoint);
+      //TODO sort array here by stages
+      return job.save();
+    })
+    .then(job => {
+      res.status(201).json(job.checkpoints)
     })
     .catch(err => {
-      console.error(err);
-      res.status(500).json({ error: "something went terribly wrong" });
+        console.error(err);
+        res.status(500).json({error: 'Error in request'});
     });
 });
 
@@ -80,7 +105,7 @@ router.put("/edit/:id", (req, res) => {
   // }
 
   const updated = {};
-  const updateableFields = ["title", "company", "contact", "deadline"];
+  const updateableFields = ["title", "company", "posting", "contact", "deadline", "style", "keywords", "image"];
   updateableFields.forEach(field => {
     if (field in req.body) {
       updated[field] = req.body[field];
@@ -90,6 +115,17 @@ router.put("/edit/:id", (req, res) => {
   Job.findByIdAndUpdate(req.params.id, { $set: updated }, { new: true })
     .then(updatedjob => res.status(204).end())
     .catch(err => res.status(500).json({ message: "Something went wrong" }));
+});
+
+router.delete("/:id", (req, res) => {
+  Job.findByIdAndRemove(req.params.id)
+    .then(() => {
+      res.status(204).json({ message: "success" });
+    })
+    .catch(err => {
+      console.error(err);
+      res.status(500).json({ error: "something went terribly wrong" });
+    });
 });
 
 module.exports = { router };

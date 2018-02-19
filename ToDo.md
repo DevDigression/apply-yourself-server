@@ -1,15 +1,10 @@
 
 # Backend
 
-* Finish the model with all the fields.
-    * remember to clear db after modifying the model
-* Add all those fields to the the api routes.
-* Test postman.
-* Do the tests for these routes. (Ex. MongooseBlogApp -> test branch)
+<!-- - add a virtual for stage+completion that returns 80%, show that on dash -->
 
 ### DevOps
 
-* Deploy Server to heroku through travis.
 
 ### LATER ON
 
