@@ -37,11 +37,12 @@ const JobSchema = mongoose.Schema({
     type: Date, 
     default: new Date()
   },
-  notes: [{type: mongoose.Schema.Types.ObjectId, ref: 'Note'}],
+  notes: {
+    type: String
+  },
   checkpoints: []
 });
 
-//TODO: Virtuals - stage, completion
 JobSchema.virtual('stage').get(function() {
   return this.checkpoints.length;
 });
@@ -78,15 +79,6 @@ const CheckpointSchema = mongoose.Schema({
     type: String,
   }
 });
-
-// CheckpointSchema.methods.checkpointRepresentation = function() {
-//   return {
-//     stage: this.stage,
-//     content: this.content,
-//     job: this.job,
-//     id: this._id
-//   };
-// };
 
 const Job = mongoose.model("Job", JobSchema);
 const Checkpoint = mongoose.model("Checkpoint", CheckpointSchema);
