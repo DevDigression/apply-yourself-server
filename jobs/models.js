@@ -70,11 +70,6 @@ JobSchema.methods.jobRepresentation = function() {
 };
 
 const CheckpointSchema = mongoose.Schema({
-  job: {
-    required: true,
-    type: mongoose.Schema.Types.ObjectId, 
-    ref: 'Job'
-  },
   stage: {
     type: String,
     required: true

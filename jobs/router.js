@@ -86,7 +86,27 @@ router.post("/:id/checkpoint", jsonParser, (req, res) => {
     .then(job => {
       job.checkpoints.push(checkpoint);
       //TODO sort array here by stages
+      job.checkpoints.sort((a, b) => a.stage > b.stage);
       return job.save();
+    })
+    .then(job => {
+      res.status(201).json(job.checkpoints)
+    })
+    .catch(err => {
+        console.error(err);
+        res.status(500).json({error: 'Error in request'});
+    });
+});
+
+router.delete("/:id/checkpoint", (req, res) => {
+    Job.findById(req.body.job)
+    .then(job => {
+      console.log(job);
+      let index = req.body.checkpoint;
+      if (index > -1) {
+        job.checkpoints.splice(index, 1);
+      }
+      return job.save();      
     })
     .then(job => {
       res.status(201).json(job.checkpoints)
