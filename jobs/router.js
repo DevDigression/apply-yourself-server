@@ -121,7 +121,7 @@ router.post("/:id/checkpoint", jsonParser, (req, res) => {
       return job.save();
     })
     .then(job => {
-      res.status(201).json(job.checkpoints)
+      res.status(201).json(job.jobRepresentation())
     })
     .catch(err => {
         console.error(err);
@@ -139,7 +139,7 @@ router.delete("/:id/checkpoint", (req, res) => {
       return job.save();      
     })
     .then(job => {
-      res.status(201).json(job.checkpoints)
+      res.status(201).json(job.jobRepresentation())
     })
     .catch(err => {
         console.error(err);
