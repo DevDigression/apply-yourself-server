@@ -8,8 +8,6 @@ const jsonParser = bodyParser.json();
 const passport = require("passport");
 const jwtAuth = passport.authenticate("jwt", { session: false });
 
-
-
 router.get("/", (req, res) => {
   Job.find()
     .then(jobs => {
@@ -74,7 +72,16 @@ router.put("/edit/:id", (req, res) => {
   // }
 
   const updated = {};
-  const updateableFields = ["title", "company", "posting", "contact", "deadline", "style", "keywords", "image"];
+  const updateableFields = [
+    "title",
+    "company",
+    "posting",
+    "contact",
+    "deadline",
+    "style",
+    "keywords",
+    "image"
+  ];
   updateableFields.forEach(field => {
     if (field in req.body) {
       updated[field] = req.body[field];
@@ -111,54 +118,57 @@ router.post("/:id/checkpoint", jsonParser, (req, res) => {
   let checkpoint = {
     stage: req.body.stage,
     content: req.body.content
-    };
+  };
 
-    Job.findById(req.params.id)
+  Job.findById(req.params.id)
     .then(job => {
       job.checkpoints.push(checkpoint);
-      //TODO sort array here by stages
       job.checkpoints.sort((a, b) => a.stage > b.stage);
+      console.log("checkpoint stage: " + checkpoint.stage);
+      job.stage = checkpoint.stage;
+      console.log("job stage: " + job.stage);
       return job.save();
     })
     .then(job => {
-      res.status(201).json(job.jobRepresentation())
+      console.log(job);
+      res.status(201).json(job.jobRepresentation());
     })
     .catch(err => {
-        console.error(err);
-        res.status(500).json({error: 'Error in request'});
+      console.error(err);
+      res.status(500).json({ error: "Error in request" });
     });
 });
 
 router.delete("/:id/checkpoint", (req, res) => {
-    Job.findById(req.body.job)
+  Job.findById(req.body.job)
     .then(job => {
       let index = req.body.checkpoint;
       if (index > -1) {
         job.checkpoints.splice(index, 1);
       }
-      return job.save();      
+      return job.save();
     })
     .then(job => {
-      res.status(201).json(job.jobRepresentation())
+      res.status(201).json(job.jobRepresentation());
     })
     .catch(err => {
-        console.error(err);
-        res.status(500).json({error: 'Error in request'});
+      console.error(err);
+      res.status(500).json({ error: "Error in request" });
     });
 });
 
 router.post("/:id/notes", jsonParser, (req, res) => {
-    Job.findById(req.params.id)
+  Job.findById(req.params.id)
     .then(job => {
       job.notes = req.body.notes;
       return job.save();
     })
     .then(job => {
-      res.status(201).json(job.notes)
+      res.status(201).json(job.notes);
     })
     .catch(err => {
-        console.error(err);
-        res.status(500).json({error: 'Error in request'});
+      console.error(err);
+      res.status(500).json({ error: "Error in request" });
     });
 });
 

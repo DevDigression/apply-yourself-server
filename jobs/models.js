@@ -34,7 +34,7 @@ const JobSchema = mongoose.Schema({
     }
   ],
   date: {
-    type: Date, 
+    type: Date,
     default: new Date()
   },
   notes: {
@@ -43,11 +43,15 @@ const JobSchema = mongoose.Schema({
   checkpoints: []
 });
 
-JobSchema.virtual('stage').get(function() {
-  return this.checkpoints.length;
+JobSchema.virtual("stage").get(function() {
+  if (this.checkpoints.length > 0) {
+    let lastCheckpoint = this.checkpoints.length - 1;
+    let currentCheckpoint = this.checkpoints[lastCheckpoint];
+    return currentCheckpoint.stage;
+  }
 });
 
-JobSchema.virtual('completion').get(function() {
+JobSchema.virtual("completion").get(function() {
   return `80%`;
 });
 
@@ -76,7 +80,7 @@ const CheckpointSchema = mongoose.Schema({
     required: true
   },
   content: {
-    type: String,
+    type: String
   }
 });
 
