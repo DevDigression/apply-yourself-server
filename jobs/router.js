@@ -160,7 +160,9 @@ router.delete("/:id/checkpoint", (req, res) => {
 router.post("/:id/notes", jsonParser, (req, res) => {
   Job.findById(req.params.id)
     .then(job => {
-      job.notes = req.body.notes;
+      if (job.notes !== "") {
+        job.notes = req.body.notes;
+      }
       return job.save();
     })
     .then(job => {
