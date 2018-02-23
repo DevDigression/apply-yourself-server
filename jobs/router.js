@@ -8,7 +8,7 @@ const jsonParser = bodyParser.json();
 const passport = require("passport");
 const jwtAuth = passport.authenticate("jwt", { session: false });
 
-router.get("/", (req, res) => {
+router.get("/", jwtAuth, (req, res) => {
   Job.find()
     .then(jobs => {
       res.json({
@@ -21,7 +21,7 @@ router.get("/", (req, res) => {
     });
 });
 
-router.get("/:id", (req, res) => {
+router.get("/:id", jwtAuth, (req, res) => {
   Job.findById(req.params.id)
     .then(job => res.json(job.jobRepresentation()))
     .catch(err => {
@@ -30,7 +30,7 @@ router.get("/:id", (req, res) => {
     });
 });
 
-router.post("/", (req, res) => {
+router.post("/", jwtAuth, (req, res) => {
   const requiredFields = ["title", "company"];
   for (let i = 0; i < requiredFields.length; i++) {
     const field = requiredFields[i];
@@ -64,7 +64,7 @@ router.post("/", (req, res) => {
     });
 });
 
-router.put("/edit/:id", (req, res) => {
+router.put("/edit/:id", jwtAuth, (req, res) => {
   // if (!(req.params.id && req.body.id && req.params.id === req.body.id)) {
   //   res.status(400).json({
   //     error: "Request path id and request body id values must match"
@@ -93,7 +93,7 @@ router.put("/edit/:id", (req, res) => {
     .catch(err => res.status(500).json({ message: "Something went wrong" }));
 });
 
-router.delete("/:id", (req, res) => {
+router.delete("/:id", jwtAuth, (req, res) => {
   Job.findByIdAndRemove(req.params.id)
     .then(() => {
       res.status(204).json({ message: "success" });
@@ -104,7 +104,7 @@ router.delete("/:id", (req, res) => {
     });
 });
 
-router.post("/:id/checkpoint", jsonParser, (req, res) => {
+router.post("/:id/checkpoint", jwtAuth, (req, res) => {
   const requiredFields = ["stage", "content"];
   for (let i = 0; i < requiredFields.length; i++) {
     const field = requiredFields[i];
@@ -139,7 +139,7 @@ router.post("/:id/checkpoint", jsonParser, (req, res) => {
     });
 });
 
-router.delete("/:id/checkpoint", (req, res) => {
+router.delete("/:id/checkpoint", jwtAuth, (req, res) => {
   Job.findById(req.body.job)
     .then(job => {
       let index = req.body.checkpoint;
@@ -157,7 +157,7 @@ router.delete("/:id/checkpoint", (req, res) => {
     });
 });
 
-router.post("/:id/notes", jsonParser, (req, res) => {
+router.post("/:id/notes", jwtAuth, (req, res) => {
   Job.findById(req.params.id)
     .then(job => {
       if (job.notes !== "") {
