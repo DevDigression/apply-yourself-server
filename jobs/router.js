@@ -9,7 +9,7 @@ const passport = require("passport");
 const jwtAuth = passport.authenticate("jwt", { session: false });
 
 router.get("/", jwtAuth, (req, res) => {
-  Job.find()
+  Job.find({ user: req.user.id })
     .then(jobs => {
       res.json({
         jobs: jobs.map(job => job.jobRepresentation())
@@ -42,6 +42,7 @@ router.post("/", jwtAuth, (req, res) => {
   }
 
   Job.create({
+    user: req.user.id,
     title: req.body.title,
     company: req.body.company,
     posting: req.body.posting,
@@ -54,8 +55,7 @@ router.post("/", jwtAuth, (req, res) => {
     date: req.body.date,
     stage: req.body.stage,
     completion: req.body.completion,
-    checkpoints: req.body.checkpoints,
-    id: req.body._id
+    checkpoints: req.body.checkpoints
   })
     .then(job => res.status(201).json(job.jobRepresentation()))
     .catch(err => {
@@ -124,9 +124,7 @@ router.post("/:id/checkpoint", jwtAuth, (req, res) => {
     .then(job => {
       job.checkpoints.push(checkpoint);
       job.checkpoints.sort((a, b) => a.stage > b.stage);
-      console.log("checkpoint stage: " + checkpoint.stage);
       job.stage = checkpoint.stage;
-      console.log("job stage: " + job.stage);
       return job.save();
     })
     .then(job => {
