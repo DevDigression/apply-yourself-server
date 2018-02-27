@@ -17,8 +17,7 @@ const JobSchema = mongoose.Schema({
     type: String
   },
   image: {
-    type: String,
-    default: "https://image.flaticon.com/icons/png/512/744/744422.png"
+    type: String
   },
   contact: {
     type: String

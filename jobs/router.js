@@ -40,8 +40,7 @@ router.post("/", jwtAuth, (req, res) => {
       return res.status(400).send(message);
     }
   }
-
-  Job.create({
+  let job = {
     user: req.user.id,
     title: req.body.title,
     company: req.body.company,
@@ -56,7 +55,12 @@ router.post("/", jwtAuth, (req, res) => {
     stage: req.body.stage,
     completion: req.body.completion,
     checkpoints: req.body.checkpoints
-  })
+  };
+
+  if (!job.image) {
+    job.image = "https://image.flaticon.com/icons/png/512/744/744422.png";
+  }
+  Job.create(job)
     .then(job => res.status(201).json(job.jobRepresentation()))
     .catch(err => {
       console.error(err);
@@ -90,7 +94,10 @@ router.put("/edit/:id", jwtAuth, (req, res) => {
 
   Job.findByIdAndUpdate(req.params.id, { $set: updated }, { new: true })
     .then(updatedjob => res.status(204).end())
-    .catch(err => res.status(500).json({ message: "Something went wrong" }));
+    .catch(err => {
+      console.log(err);
+      res.status(500).json({ message: "Something went wrong" });
+    });
 });
 
 router.delete("/:id", jwtAuth, (req, res) => {
