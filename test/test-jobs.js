@@ -12,6 +12,10 @@ const { Job } = require("../jobs/models");
 const { closeServer, runServer, app } = require("../server");
 const { TEST_DATABASE_URL } = require("../config");
 
+const username = "exampleUser";
+const password = "example123123Pass";
+let id = "";
+
 chai.use(chaiHttp);
 
 function tearDownDb() {
@@ -43,7 +47,17 @@ describe("Apply Yourself Jobs API resource", function() {
   });
 
   beforeEach(function() {
-    return seedJobsData();
+    User.hashPassword(password)
+      .then(password =>
+        User.create({
+          username,
+          password,
+          firstName,
+          lastName
+        })
+      )
+      .then(user => (id = user.id))
+      .then(user => seedJobsData());
   });
 
   afterEach(function() {
@@ -55,6 +69,7 @@ describe("Apply Yourself Jobs API resource", function() {
   });
 
   describe("GET endpoint", function() {
+    console.log(id);
     it("should return all existing jobs", function() {
       let res;
       return chai
