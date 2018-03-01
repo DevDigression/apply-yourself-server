@@ -1,5 +1,5 @@
 "use strict";
-const { Job } = require("./models");
+const { Job, Checkpoint } = require("./models");
 const { router } = require("./router");
 
-module.exports = { Job, router };
+module.exports = { Job, Checkpoint, router };

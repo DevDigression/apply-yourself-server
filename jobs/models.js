@@ -23,7 +23,7 @@ const JobSchema = mongoose.Schema({
     type: String
   },
   deadline: {
-    type: String
+    type: Date
   },
   style: {
     type: String
@@ -33,21 +33,40 @@ const JobSchema = mongoose.Schema({
       type: String
     }
   ],
-  notes: [
-    {
-      type: String
-    }
-  ],
   date: {
+    type: Date,
+    default: new Date()
+  },
+  notes: {
     type: String
   },
-  stage: {
-    type: String
-  },
-  completion: {
-    type: String
-  },
-  checkpoints: []
+  checkpoints: [],
+  user: {
+    required: true,
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User"
+  }
+});
+
+JobSchema.virtual("stage").get(function() {
+  if (this.checkpoints.length === 0) {
+    return 0;
+  } else if (this.checkpoints.length > 0) {
+    let lastCheckpoint = this.checkpoints.length - 1;
+    let currentCheckpoint = this.checkpoints[lastCheckpoint];
+    return currentCheckpoint.stage;
+  }
+});
+
+JobSchema.virtual("completion").get(function() {
+  let totalCheckpoints = 7;
+  if (this.checkpoints.length === 0) {
+    return 0 + "%";
+  } else if (this.checkpoints.length > 0) {
+    let lastCheckpoint = this.checkpoints.length - 1;
+    let currentCheckpoint = this.checkpoints[lastCheckpoint];
+    return (currentCheckpoint.stage / totalCheckpoints * 100).toFixed(0) + "%";
+  }
 });
 
 JobSchema.methods.jobRepresentation = function() {
@@ -69,6 +88,17 @@ JobSchema.methods.jobRepresentation = function() {
   };
 };
 
-const Job = mongoose.model("Job", JobSchema);
+const CheckpointSchema = mongoose.Schema({
+  stage: {
+    type: String,
+    required: true
+  },
+  content: {
+    type: String
+  }
+});
 
-module.exports = { Job };
+const Job = mongoose.model("Job", JobSchema);
+const Checkpoint = mongoose.model("Checkpoint", CheckpointSchema);
+
+module.exports = { Job, Checkpoint };
