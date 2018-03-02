@@ -26,11 +26,13 @@ const JobSchema = mongoose.Schema({
     type: Date
   },
   style: {
-    type: String
+    type: String,
+    required: true
   },
   keywords: [
     {
-      type: String
+      type: String,
+      required: true
     }
   ],
   date: {

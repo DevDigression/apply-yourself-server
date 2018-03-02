@@ -165,12 +165,14 @@ router.delete("/:id/checkpoint", jwtAuth, (req, res) => {
 router.post("/:id/notes", jwtAuth, (req, res) => {
   Job.findById(req.params.id)
     .then(job => {
-      if (job.notes !== "") {
+      console.log(req.body.notes);
+      // if (job.notes !== "") {
         job.notes = req.body.notes;
-      }
+      // }
       return job.save();
     })
     .then(job => {
+      console.log(job.notes);
       res.status(201).json(job.notes);
     })
     .catch(err => {
