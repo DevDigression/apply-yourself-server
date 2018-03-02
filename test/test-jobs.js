@@ -7,10 +7,16 @@ const faker = require("faker");
 const mongoose = require("mongoose");
 
 const should = chai.should();
-
+const { User } = require("../users");
 const { Job } = require("../jobs/models");
+
 const { closeServer, runServer, app } = require("../server");
-const { TEST_DATABASE_URL } = require("../config");
+const { TEST_DATABASE_URL, JWT_SECRET } = require("../config");
+const jwt = require("jsonwebtoken");
+const username = "exampleUser";
+const password = "example123123Pass";
+let user_id;
+let token;
 
 chai.use(chaiHttp);
 
@@ -30,7 +36,8 @@ function seedJobsData() {
   for (let i = 1; i <= 10; i++) {
     seedData.push({
       title: faker.lorem.sentence(),
-      company: faker.lorem.text()
+      company: faker.lorem.text(),
+      user: user_id
     });
   }
 
@@ -43,7 +50,31 @@ describe("Apply Yourself Jobs API resource", function() {
   });
 
   beforeEach(function() {
-    return seedJobsData();
+    return User.hashPassword(password)
+      .then(password =>
+        User.create({
+          username,
+          password
+        })
+      )
+      .then(user => (user_id = user._id))
+      .then(user => seedJobsData())
+      .then(() => {
+        token = jwt.sign(
+          {
+            user: {
+              username,
+              id: user_id
+            }
+          },
+          JWT_SECRET,
+          {
+            algorithm: "HS256",
+            subject: username,
+            expiresIn: "7d"
+          }
+        );
+      });
   });
 
   afterEach(function() {
@@ -60,6 +91,7 @@ describe("Apply Yourself Jobs API resource", function() {
       return chai
         .request(app)
         .get("/api/jobs")
+        .set("Authorization", `Bearer ${token}`)
         .then(_res => {
           res = _res;
           res.should.have.status(200);
@@ -105,6 +137,7 @@ describe("Apply Yourself Jobs API resource", function() {
       return chai
         .request(app)
         .post("/api/jobs")
+        .set("Authorization", `Bearer ${token}`)
         .send(newJob)
         .then(function(res) {
           res.should.have.status(201);
