@@ -37,7 +37,8 @@ function seedJobsData() {
     seedData.push({
       title: faker.lorem.sentence(),
       company: faker.lorem.text(),
-      user: user_id
+      user: user_id,
+      style: faker.lorem.text()
     });
   }
 
@@ -108,6 +109,7 @@ describe("Apply Yourself Jobs API resource", function() {
     return chai
       .request(app)
       .get("/api/jobs")
+      .set("Authorization", `Bearer ${token}`)
       .then(function(res) {
         res.should.have.status(200);
         res.should.be.json;
@@ -131,7 +133,8 @@ describe("Apply Yourself Jobs API resource", function() {
     it("should add a new job", function() {
       const newJob = {
         title: faker.lorem.sentence(),
-        company: faker.lorem.text()
+        company: faker.lorem.text(),
+        style: faker.lorem.text()
       };
 
       return chai
@@ -160,7 +163,8 @@ describe("Apply Yourself Jobs API resource", function() {
     it("should update fields", function() {
       const updateData = {
         title: "Web Developer",
-        company: "Google"
+        company: "Google",
+        style: "Enterprise"
       };
 
       return Job.findOne()
@@ -170,6 +174,7 @@ describe("Apply Yourself Jobs API resource", function() {
           return chai
             .request(app)
             .put(`/api/jobs/edit/${job.id}`)
+            .set("Authorization", `Bearer ${token}`)
             .send(updateData);
         })
         .then(res => {
@@ -190,7 +195,8 @@ describe("Apply Yourself Jobs API resource", function() {
       return Job.findOne()
         .then(_job => {
           job = _job;
-          return chai.request(app).delete(`/api/jobs/${job.id}`);
+          return chai.request(app)
+          .delete(`/api/jobs/${job.id}`).set("Authorization", `Bearer ${token}`);
         })
         .then(res => {
           res.should.have.status(204);
