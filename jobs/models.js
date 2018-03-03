@@ -22,8 +22,8 @@ const JobSchema = mongoose.Schema({
   contact: {
     type: String
   },
-  deadline: {
-    type: Date
+  priority: {
+    type: Number
   },
   style: {
     type: String,
@@ -78,7 +78,7 @@ JobSchema.methods.jobRepresentation = function() {
     posting: this.posting,
     image: this.image,
     contact: this.contact,
-    deadline: this.deadline,
+    priority: this.priority,
     style: this.style,
     keywords: this.keywords,
     notes: this.notes,

@@ -47,7 +47,7 @@ router.post("/", jwtAuth, (req, res) => {
     posting: req.body.posting,
     image: req.body.image,
     contact: req.body.contact,
-    deadline: req.body.deadline,
+    priority: req.body.priority,
     style: req.body.style,
     keywords: req.body.keywords,
     notes: req.body.notes,
@@ -81,7 +81,7 @@ router.put("/edit/:id", jwtAuth, (req, res) => {
     "company",
     "posting",
     "contact",
-    "deadline",
+    "priority",
     "style",
     "keywords",
     "image"
