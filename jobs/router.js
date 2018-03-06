@@ -49,7 +49,7 @@ router.post("/", jwtAuth, (req, res) => {
     contact: req.body.contact,
     priority: req.body.priority,
     style: req.body.style,
-    keywords: req.body.keywords.split(","),
+    keywords: req.body.keywords,
     notes: req.body.notes,
     date: req.body.date,
     stage: req.body.stage,
@@ -69,7 +69,6 @@ router.post("/", jwtAuth, (req, res) => {
 });
 
 router.put("/edit/:id", jwtAuth, (req, res) => {
-
   const updated = {};
   const updateableFields = [
     "title",
@@ -87,9 +86,6 @@ router.put("/edit/:id", jwtAuth, (req, res) => {
     }
   });
 
-  if (!Array.isArray(updated.keywords)) {
-    updated.keywords = updated.keywords.split(","); 
-  }
   Job.findByIdAndUpdate(req.params.id, { $set: updated }, { new: true })
     .then(updatedjob => res.status(204).end())
     .catch(err => {
@@ -162,7 +158,7 @@ router.delete("/:id/checkpoint", jwtAuth, (req, res) => {
 router.post("/:id/notes", jwtAuth, (req, res) => {
   Job.findById(req.params.id)
     .then(job => {
-        job.notes = req.body.notes;
+      job.notes = req.body.notes;
       return job.save();
     })
     .then(job => {
