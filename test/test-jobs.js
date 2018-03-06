@@ -59,7 +59,7 @@ describe("Apply Yourself Jobs API resource", function() {
           password
         })
       )
-      .then(user => (user_id = user._id))
+      .then(user => (user_id = user.id))
       .then(user => seedJobsData())
       .then(() => {
         token = jwt.sign(

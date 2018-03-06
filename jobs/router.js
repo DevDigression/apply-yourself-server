@@ -69,11 +69,6 @@ router.post("/", jwtAuth, (req, res) => {
 });
 
 router.put("/edit/:id", jwtAuth, (req, res) => {
-  // if (!(req.params.id && req.body.id && req.params.id === req.body.id)) {
-  //   res.status(400).json({
-  //     error: "Request path id and request body id values must match"
-  //   });
-  // }
 
   const updated = {};
   const updateableFields = [
@@ -138,7 +133,6 @@ router.post("/:id/checkpoint", jwtAuth, (req, res) => {
       return job.save();
     })
     .then(job => {
-      console.log(job);
       res.status(201).json(job.jobRepresentation());
     })
     .catch(err => {
@@ -168,14 +162,10 @@ router.delete("/:id/checkpoint", jwtAuth, (req, res) => {
 router.post("/:id/notes", jwtAuth, (req, res) => {
   Job.findById(req.params.id)
     .then(job => {
-      console.log(req.body.notes);
-      // if (job.notes !== "") {
         job.notes = req.body.notes;
-      // }
       return job.save();
     })
     .then(job => {
-      console.log(job.notes);
       res.status(201).json(job.notes);
     })
     .catch(err => {

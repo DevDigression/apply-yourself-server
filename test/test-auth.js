@@ -31,7 +31,8 @@ describe("Auth endpoints", function() {
         username,
         password
       })
-    );
+    )
+    .then(user => (user_id = user.id))
   });
 
   afterEach(function() {
@@ -89,7 +90,6 @@ describe("Auth endpoints", function() {
         .post("/api/auth/login")
         .send({ username, password })
         .then(res => {
-       	  user_id = res.body.id;
           expect(res).to.have.status(200);
           expect(res.body).to.be.an("object");
           const token = res.body.authToken;
