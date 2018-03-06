@@ -37,6 +37,7 @@ function seedJobsData() {
     seedData.push({
       title: faker.lorem.sentence(),
       company: faker.lorem.text(),
+      keywords: "React,Node,Javascript",
       user: user_id,
       style: faker.lorem.text()
     });
@@ -134,7 +135,8 @@ describe("Apply Yourself Jobs API resource", function() {
       const newJob = {
         title: faker.lorem.sentence(),
         company: faker.lorem.text(),
-        style: faker.lorem.text()
+        style: faker.lorem.text(),
+        keywords: "React,Node,Javascript"
       };
 
       return chai
@@ -164,7 +166,8 @@ describe("Apply Yourself Jobs API resource", function() {
       const updateData = {
         title: "Web Developer",
         company: "Google",
-        style: "Enterprise"
+        style: "Enterprise",
+        keywords: "React,Node,Javascript"
       };
 
       return Job.findOne()

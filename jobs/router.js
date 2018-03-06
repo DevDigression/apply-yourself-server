@@ -49,7 +49,7 @@ router.post("/", jwtAuth, (req, res) => {
     contact: req.body.contact,
     priority: req.body.priority,
     style: req.body.style,
-    keywords: req.body.keywords,
+    keywords: req.body.keywords.split(","),
     notes: req.body.notes,
     date: req.body.date,
     stage: req.body.stage,
@@ -92,6 +92,9 @@ router.put("/edit/:id", jwtAuth, (req, res) => {
     }
   });
 
+  if (!Array.isArray(updated.keywords)) {
+    updated.keywords = updated.keywords.split(","); 
+  }
   Job.findByIdAndUpdate(req.params.id, { $set: updated }, { new: true })
     .then(updatedjob => res.status(204).end())
     .catch(err => {
