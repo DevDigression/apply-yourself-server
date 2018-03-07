@@ -12,23 +12,23 @@ By logging into **Apply Yourself**, users have access to their *dashboard*:
 
 ![alt text](https://github.com/DevDigression/apply-yourself-client/blob/master/src/img/Apply%20Yourself%20Dashboard.gif "Apply Yourself Dashboard")
 
-The *dashboard* lists all current job prospects that the user has collected. By clicking the *Add Job* button and filling out the form, a new job is added to the list. Each job section displays the job title and company, as well as the date added and an optional company logo. Additionally, the user assigns each job a priority level. As a user completes steps in the job application process, checkpoints are added to that job and the stage is updated accordingly. Jobs can be sorted on the dashboard by stage or by priority by clicking the respective buttons at the top of the dashboard. 
+The **dashboard** lists all current job prospects that the user has collected. By clicking the **Add Job** button and filling out the form, a new job is added to the list. Each job section displays the job title and company, as well as the date added and an optional company logo. Additionally, the user assigns each job a priority level. As a user completes steps in the job application process, checkpoints are added to that job and the stage is updated accordingly. Jobs can be sorted on the dashboard by stage or by priority by clicking the respective buttons at the top of the dashboard. 
 
-By clicking on a job from the *dashboard*, users are directed to the specific information pertaining to that job:
+By clicking on a job from the **dashboard**, users are directed to the specific information pertaining to that job:
 
 ![alt text](https://github.com/DevDigression/apply-yourself-client/blob/master/src/img/Apply%20Yourself%20Single%20Job.gif "Apply Yourself Single Job")
 
-Each job page gives the user several important elements related to their job:
+Each job page gives the user several important elements related to the job:
  - Job title and company
  - Link to specific job posting
  - Progression bar displaying current stage of the job
  - Style of company (Enterprise, Startup, Nonprofit, Contract)
  - Desired skills for the job (eg., Javascript, React, Node)
- - Notes pertaining to the job
+ - Notes the user can add/edit pertaining to the job
  - Checkpoints passed in the job application process (eg., sending resume, having interview, receiving coding challenge) as well as a button to add new checkpoints
  - Buttons to edit job information or remove the job from the list 
 
-For perspective on how the job search is going as a whole, users can view their *Stats* page:
+For perspective on how the job search is going as a whole, users can view their **Stats** page:
 
 ![alt text](https://github.com/DevDigression/apply-yourself-client/blob/master/src/img/Apply%20Yourself%20Stats.gif "Apply Yourself Stats")
 
